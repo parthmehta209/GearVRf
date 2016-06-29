@@ -964,7 +964,7 @@ public class CursorManager {
         }
     }
 
-    GVRContext getGvrContext() {
+    public GVRContext getGvrContext() {
         return context;
     }
 }

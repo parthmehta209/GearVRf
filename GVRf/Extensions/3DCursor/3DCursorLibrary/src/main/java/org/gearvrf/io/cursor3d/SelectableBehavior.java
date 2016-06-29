@@ -47,7 +47,7 @@ public class SelectableBehavior extends GVRBehavior {
          * @param prev    the previous state
          * @param current current state to be set.
          */
-        void onStateChanged(ObjectState prev, ObjectState current);
+        void onStateChanged(SelectableBehavior behavior, ObjectState prev, ObjectState current);
     }
 
     /**
@@ -251,13 +251,14 @@ public class SelectableBehavior extends GVRBehavior {
     }
 
     private void setState(ObjectState state) {
-        if (this.state != state && stateChangedListener != null) {
-            stateChangedListener.onStateChanged(this.state, state);
-        }
+        ObjectState prevState = this.state;
         this.state = state;
         Integer childIndex = stateIndexMap.get(state);
         if (childIndex != null && gvrSwitch != null) {
             gvrSwitch.setSwitchIndex(childIndex);
+        }
+        if (prevState != this.state && stateChangedListener != null) {
+            stateChangedListener.onStateChanged(this, prevState, currentState);
         }
     }
 
