@@ -451,6 +451,33 @@ public class CursorManager {
     }
 
     /**
+     * Change the current cursor to the settings cursor.
+     * @param cursor
+     */
+    public int enableSettingsCursor() {
+        Cursor cursor = cursors.get(0);
+        IoDevice device = cursor.getIoDevice();
+        cursor.destroyIoDevice(device);
+        scene.removeSceneObject(cursor.getMainSceneObject());
+        settingsCursor.setIoDevice(device);
+        scene.addSceneObject(settingsCursor.getMainSceneObject());
+        return settingsCursor.getIoDevice().getCursorControllerId();
+    }
+
+    public void disableSettingsCursor() {
+        for (Cursor cursor : cursors) {
+            if (cursor.getIoDevice() == settingsCursor.getIoDevice()) {
+                IoDevice device = cursor.getIoDevice();
+                settingsCursor.resetIoDevice(device);
+                scene.removeSceneObject(settingsCursor.getMainSceneObject());
+                cursor.setIoDevice(device);
+                scene.addSceneObject(cursor.getMainSceneObject());
+                break;
+            }
+        }
+    }
+
+    /**
      * Presents the Cursor Settings to the User. Only works if scene is set.
      */
     private void showSettingsMenu(final Cursor cursor) {
