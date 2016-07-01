@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * The scene graph.
@@ -42,7 +43,7 @@ public class GVRScene extends GVRHybridObject implements PrettyPrint, IScriptabl
     @SuppressWarnings("unused")
     private static final String TAG = Log.tag(GVRScene.class);
     public static final int MAX_LIGHTS = 16;
-    private final List<GVRSceneObject> mSceneObjects = new ArrayList<GVRSceneObject>();
+    private final List<GVRSceneObject> mSceneObjects = new CopyOnWriteArrayList<GVRSceneObject>();
     private GVRCameraRig mMainCameraRig;
     private StringBuilder mStatMessage = new StringBuilder();
     private Set<GVRLightBase> mLightList = new HashSet<GVRLightBase>();
