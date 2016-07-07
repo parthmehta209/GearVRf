@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class SelectableBehavior extends GVRBehavior {
     private static final String TAG = SelectableBehavior.class.getSimpleName();
     static private long TYPE_SELECTABLE = ((long)SelectableBehavior.class.hashCode() << 32) & (System
-            .currentTimeMillis() & 0xffffffff);;
+            .currentTimeMillis() & 0xffffffff);
     private static final String DEFAULT_ASSET_NEEDED = "Asset for Default state should be " +
             "specified";
     private GVRSwitch gvrSwitch;

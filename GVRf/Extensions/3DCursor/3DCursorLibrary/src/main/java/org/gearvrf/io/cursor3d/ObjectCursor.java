@@ -193,5 +193,6 @@ class ObjectCursor extends Cursor {
     void setIoDevice(IoDevice ioDevice) {
         super.setIoDevice(ioDevice);
         ioDevice.setNearDepth(POINT_CURSOR_NEAR_DEPTH);
+        ioDevice.setFarDepth(-Float.MAX_VALUE);
     }
 }
