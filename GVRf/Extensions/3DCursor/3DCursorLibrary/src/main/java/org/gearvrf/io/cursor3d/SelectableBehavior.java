@@ -1,5 +1,8 @@
 package org.gearvrf.io.cursor3d;
 
+import android.os.Handler;
+import android.os.Handler.Callback;
+import android.os.Message;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 
@@ -34,6 +37,8 @@ public class SelectableBehavior extends GVRBehavior {
     protected ObjectState currentState = ObjectState.DEFAULT;
     private StateChangedListener stateChangedListener;
     private CursorManager cursorManager;
+    private boolean stareToTapEnabled;
+    private Handler stareHandler;
 
     /**
      * Set a {@link StateChangedListener} using
@@ -151,6 +156,7 @@ public class SelectableBehavior extends GVRBehavior {
         this.cursorManager = cursorManager;
         states = new SparseArray<ObjectState>();
         stateIndexMap = new HashMap<ObjectState, Integer>();
+        stareToTapEnabled = false;
 
         boolean defaultState = false;
         for (int i = 0; i < objectStates.length; i++) {
@@ -164,7 +170,24 @@ public class SelectableBehavior extends GVRBehavior {
             throw new IllegalArgumentException(DEFAULT_ASSET_NEEDED);
         }
         setState(ObjectState.DEFAULT);
+        stareHandler = new Handler(stareHandlerCallback);
     }
+
+    private enum StareState {
+        INIT, WAITING, LOADING,
+    }
+    private StareState stareState;
+    private Handler.Callback stareHandlerCallback = new Callback() {
+        @Override
+        public boolean handleMessage(Message message) {
+            switch (message.what) {
+//                case START_STARE_TIMER:
+//                    break;
+//                case CLICKED:
+            }
+            return false;
+        }
+    };
 
     @Override
     public void onAttach(GVRSceneObject sceneObject) {
@@ -415,5 +438,9 @@ public class SelectableBehavior extends GVRBehavior {
 
     public static long getComponentType() {
         return TYPE_SELECTABLE;
+    }
+
+    public void setStareToTapStatus(boolean enabled) {
+        stareToTapEnabled = enabled;
     }
 }
