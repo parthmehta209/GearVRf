@@ -185,7 +185,7 @@ public class IoDevice {
         return name;
     }
 
-    int getCursorControllerId() {
+    public int getCursorControllerId() {
         return gvrCursorController.getId();
     }
 

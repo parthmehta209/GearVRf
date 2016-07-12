@@ -32,6 +32,7 @@ class GVRGazeCursorController extends GVRBaseController implements
     private static final int SET_KEY_DOWN = 1;
     private static final int TAP_TIMEOUT = 160;
     private static float TOUCH_SQUARE = 8.0f * 8.0f;
+    private static int SCROLL_THRESHOLD = 50;
     private static final float DEPTH_SENSITIVITY = 0.1f;
     private final KeyEvent BUTTON_GAZE_DOWN = new KeyEvent(
             KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_1);
@@ -131,6 +132,14 @@ class GVRGazeCursorController extends GVRBaseController implements
             float deltaX = eventX - actionDownX;
             float deltaY = eventY - actionDownY;
             float eventZ = actionDownZ + (deltaX * DEPTH_SENSITIVITY);
+
+            if(deltaY > SCROLL_THRESHOLD) {
+                setKeyEvent(new KeyEvent(SwipeKeyEvents.ACTION_SCROLL,SwipeKeyEvents
+                        .KEYCODE_SCROLL_UP));
+            } else if(deltaY < -1*SCROLL_THRESHOLD) {
+                setKeyEvent(new KeyEvent(SwipeKeyEvents.ACTION_SCROLL,SwipeKeyEvents
+                        .KEYCODE_SCROLL_DOWN));
+            }
 
             if (eventZ >= getNearDepth()) {
                 eventZ = getNearDepth();
