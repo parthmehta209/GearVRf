@@ -9,6 +9,7 @@ import org.gearvrf.GVRSceneObject;
 import org.gearvrf.GVRSwitch;
 import org.gearvrf.GVRTransform;
 import org.gearvrf.utility.Log;
+import org.gearvrf.IEvents;
 
 import java.util.HashMap;
 
@@ -49,6 +50,14 @@ public class SelectableBehavior extends GVRBehavior {
          * @param current current state to be set.
          */
         void onStateChanged(ObjectState prev, ObjectState current);
+    }
+
+    public interface ICursorEvent extends IEvents {
+        void onEnter();
+        void onLeave();
+        void onBehind();
+        void onClick();
+        void onDrag();
     }
 
     /**
