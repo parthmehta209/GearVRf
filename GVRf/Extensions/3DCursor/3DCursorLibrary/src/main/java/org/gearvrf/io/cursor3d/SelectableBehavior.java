@@ -5,6 +5,7 @@ import android.view.KeyEvent;
 
 import org.gearvrf.GVRBehavior;
 import org.gearvrf.GVRComponent;
+import org.gearvrf.GVRScene;
 import org.gearvrf.GVRSceneObject;
 import org.gearvrf.GVRSwitch;
 import org.gearvrf.GVRTransform;
@@ -52,12 +53,18 @@ public class SelectableBehavior extends GVRBehavior {
         void onStateChanged(ObjectState prev, ObjectState current);
     }
 
-    public interface ICursorEvent extends IEvents {
-        void onEnter();
-        void onLeave();
-        void onBehind();
-        void onClick();
-        void onDrag();
+    public interface ISelectableEvents extends IEvents {
+        // *-> colliding
+        void onEnter(Cursor cursor, GVRSceneObject sceneObject, float[] hitpoint); // ??
+        // colliding but not clicked
+        void onInside(Cursor cursor, GVRScene sceneObject, float[] hitpoint); // ??
+        // everytime the cursor exits i.e. to colliding/clicked->default/behind
+        void onExit(Cursor cursor, GVRSceneObject sceneObject);// ??
+        void onClick(Cursor cursor, GVRSceneObject sceneObject, float[] hitpoint); // is current
+        // is click
+        void onClickReleased(Cursor cursor, GVRSceneObject sceneObject); // is previous is click
+        void onDrag(Cursor cursor, GVRSceneObject sceneObject); // drag done
+        void onBehind(Cursor cursor, GVRSceneObject sceneObject); // if in behind
     }
 
     /**
@@ -346,6 +353,7 @@ public class SelectableBehavior extends GVRBehavior {
                             setButtonPress(cursorId);
                         }
                     }
+
                 } else {
                     if (cursorDistance > soDistance) {
                         setWireFrame(cursorId);

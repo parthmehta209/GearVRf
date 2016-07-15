@@ -610,7 +610,6 @@ public abstract class Cursor {
 
     void dispatchCursorEvent(CursorEvent event) {
         if (enabled) {
-            //TODO find better fix for concurrent modification
             for (CursorEventListener listener : cursorEventListeners) {
                 listener.onEvent(event);
             }
