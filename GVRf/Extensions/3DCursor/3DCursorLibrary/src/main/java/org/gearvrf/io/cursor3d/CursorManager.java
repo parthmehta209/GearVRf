@@ -21,6 +21,7 @@ import org.gearvrf.GVRContext;
 import org.gearvrf.GVRDrawFrameListener;
 import org.gearvrf.GVRMesh;
 import org.gearvrf.GVRPerspectiveCamera;
+import org.gearvrf.GVRPicker;
 import org.gearvrf.GVRScene;
 import org.gearvrf.GVRSceneObject;
 import org.gearvrf.ISensorEvents;
@@ -951,6 +952,7 @@ public class CursorManager {
             @Override
             public void onActivated(Cursor cursor) {
                 Log.d(TAG, "On CursorActivated");
+                cursor.getMainSceneObject().attachComponent(new GVRPicker(getGVRContext(), scene));
                 for (SelectableBehavior selectableBehavior : selectableBehaviors) {
                     selectableBehavior.onCursorActivated(cursor);
                 }

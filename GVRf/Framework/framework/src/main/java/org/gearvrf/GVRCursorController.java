@@ -605,7 +605,7 @@ public abstract class GVRCursorController {
             listener.onEvent(this);
         }
 
-        sensorManager.processPick(scene, this);
+        //sensorManager.processPick(scene, this);
 
         // reset the set key and motion events.
         synchronized (eventLock) {
