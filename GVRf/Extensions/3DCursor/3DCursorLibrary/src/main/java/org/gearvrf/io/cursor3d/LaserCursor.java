@@ -53,6 +53,7 @@ class LaserCursor extends Cursor {
         cursorEvent.setObject(event.getObject());
         cursorEvent.setHitPoint(event.getHitX(), event.getHitY(), event.getHitZ());
         cursorEvent.setKeyEvent(event.getCursorController().getKeyEvent());
+        cursorEvent.setMotionEvents(event.getCursorController().getMotionEvents());
 
         if (event.isActive()) {
             checkAndSetAsset(Action.CLICK);
