@@ -64,6 +64,7 @@ import java.util.Map;
 public class CursorManager {
     // Result of XML parsing in a package of all settings that need displaying.
     private static final String TAG = CursorManager.class.getSimpleName();
+    private static final float DEFAULT_CURSOR_SCALE = 15.0f;
     static String SETTINGS_SOURCE = "settings.xml";
 
     private GVRContext context;
@@ -157,6 +158,7 @@ public class CursorManager {
         unusedIoDevices = new ArrayList<IoDevice>();
         selectableBehaviors = new ArrayList<SelectableBehavior>();
         cursorSensor = new CursorSensor(context);
+        cursorScale = DEFAULT_CURSOR_SCALE;
 
         try {
             SettingsParser.parseSettings(context, this);

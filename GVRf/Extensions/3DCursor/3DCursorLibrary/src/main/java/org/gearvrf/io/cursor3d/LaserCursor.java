@@ -74,6 +74,9 @@ class LaserCursor extends Cursor {
 
     @Override
     void setScale(float scale) {
+        if(scale > MAX_CURSOR_SCALE) {
+            return;
+        }
         super.setScale(scale);
         /* the laser cursor does not use depth, set a fixed depth.*/
         cursorSceneObject.setScale(scale);

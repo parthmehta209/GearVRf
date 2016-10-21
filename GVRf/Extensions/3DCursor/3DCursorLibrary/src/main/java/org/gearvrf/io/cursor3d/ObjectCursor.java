@@ -183,6 +183,9 @@ class ObjectCursor extends Cursor {
     @Override
     void setScale(float scale) {
         // place the cursor at half the depth scale
+        if(scale > MAX_CURSOR_SCALE) {
+            return;
+        }
         super.setScale(scale / 2);
 
         if (ioDevice != null) {

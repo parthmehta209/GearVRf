@@ -54,6 +54,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public abstract class Cursor {
     private static final String TAG = Cursor.class.getSimpleName();
+    protected static final float MAX_CURSOR_SCALE = 1000;
     private GVRContext context;
     protected GVRSceneObject cursor;
     private String name;
