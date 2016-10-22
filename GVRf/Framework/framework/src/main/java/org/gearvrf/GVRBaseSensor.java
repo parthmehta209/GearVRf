@@ -17,6 +17,8 @@ package org.gearvrf;
 
 import android.util.SparseArray;
 
+import org.gearvrf.utility.Log;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -68,7 +70,7 @@ public class GVRBaseSensor {
         newHits.add(event);
     }
 
-    void processList(GVRCursorController controller) {
+    boolean processList(GVRCursorController controller) {
         final List<SensorEvent> events = new ArrayList<SensorEvent>();
 
         ControllerData data = getControllerData(controller);
@@ -101,15 +103,17 @@ public class GVRBaseSensor {
             }
             newHits.clear();
         }
-
+        boolean eventHandled = false;
         GVREventManager eventManager = gvrContext.getEventManager();
         if (events.isEmpty() == false) {
             final IEventReceiver ownerCopy = owner;
             for (SensorEvent event : events) {
-                eventManager.sendEvent(ownerCopy, ISensorEvents.class, "onSensorEvent", event);
+                eventHandled = eventManager.sendEvent(ownerCopy, ISensorEvents.class,
+                        "onSensorEvent", event);
                 event.recycle();
             }
         }
+        return eventHandled;
     }
 
     ControllerData getControllerData(GVRCursorController controller) {

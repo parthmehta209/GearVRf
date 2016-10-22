@@ -16,16 +16,11 @@
 
 package org.gearvrf.io.cursor3d;
 
-import android.opengl.Matrix;
-
 import org.gearvrf.GVRContext;
 import org.gearvrf.GVRCursorController;
 import org.gearvrf.GVRCursorController.ControllerEventListener;
-import org.gearvrf.GVRMaterial;
-import org.gearvrf.GVRRenderData;
 import org.gearvrf.SensorEvent;
 import org.gearvrf.io.cursor3d.CursorAsset.Action;
-import org.joml.Vector3f;
 
 /**
  * Class that represents a laser type cursor.
@@ -97,7 +92,7 @@ class LaserCursor extends Cursor {
 
         @Override
         public void onEvent(GVRCursorController controller) {
-            lookAt();
+            handleControllerEvent(controller, false);
         }
     };
 }

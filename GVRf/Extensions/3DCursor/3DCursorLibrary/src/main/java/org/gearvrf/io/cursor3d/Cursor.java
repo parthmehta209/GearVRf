@@ -634,6 +634,23 @@ public abstract class Cursor {
         }
     }
 
+    protected void handleControllerEvent(GVRCursorController controller, boolean sentEvent) {
+        lookAt();
+        if (!controller.isEventHandledBySensor() && !sentEvent && (controller.getKeyEvent() !=
+                null || controller.getMotionEvents().size() > 0)) {
+            CursorEvent cursorEvent = CursorEvent.obtain();
+            cursorEvent.setOver(false);
+            cursorEvent.setColliding(false);
+            cursorEvent.setActive(isActive());
+            cursorEvent.setCursor(Cursor.this);
+            cursorEvent.setObject(null);
+            cursorEvent.setHitPoint(null);
+            cursorEvent.setKeyEvent(controller.getKeyEvent());
+            cursorEvent.setMotionEvents(controller.getMotionEvents());
+            dispatchCursorEvent(cursorEvent);
+        }
+    }
+
     /**
      * Get a list of currently available {@link IoDevice}s to use with the {@link Cursor}. The
      * {@link Cursor} defines a list of compatible {@link IoDevice}s in the settings.xml. This

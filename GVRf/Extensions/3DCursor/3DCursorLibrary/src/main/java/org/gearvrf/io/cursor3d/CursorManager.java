@@ -15,6 +15,8 @@
 
 package org.gearvrf.io.cursor3d;
 
+import android.view.KeyEvent;
+
 import org.gearvrf.GVRBaseSensor;
 import org.gearvrf.GVRContext;
 import org.gearvrf.GVRDrawFrameListener;
@@ -37,6 +39,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -1062,8 +1065,20 @@ public class CursorManager {
         @Override
         public void onEvent(CursorEvent event) {
             GVRSceneObject sceneObject = event.getObject();
-            while (!callEventHandler(sceneObject, event) && sceneObject.getParent() != null) {
+            while (sceneObject != null && !callEventHandler(sceneObject, event) && sceneObject
+                    .getParent() != null) {
                 sceneObject = sceneObject.getParent();
+            }
+            if(sceneObject == null) {
+                KeyEvent keyEvent = event.getKeyEvent();
+                String keyEventString;
+                if(keyEvent == null) {
+                    keyEventString = "null";
+                } else {
+                    keyEventString = keyEvent.toString();
+                }
+                Log.d(TAG,"KeyEvent:%s, MotionEvent:%s", keyEventString, Arrays
+                        .toString(event.getMotionEvents().toArray()));
             }
         }
     };
