@@ -15,7 +15,6 @@
 
 package org.gearvrf.io.cursor3d;
 
-import android.view.KeyEvent;
 
 import org.gearvrf.GVRBaseSensor;
 import org.gearvrf.GVRContext;
@@ -39,7 +38,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -475,7 +473,7 @@ public class CursorManager {
     /**
      * This method modifies the {@link Cursor} passed in the argument to a settings cursor. A
      * settings cursor is a {@link Cursor} of type {@link CursorType#LASER} used to interact with a
-     * {@link GVRViewSceneObject}. Since it is easier to use a {@link Crusor} of type
+     * {@link GVRViewSceneObject}. Since it is easier to use a {@link Cursor} of type
      * {@link CursorType#LASER} to interract with {@link GVRViewSceneObject} this convinience
      * method is provided, so that the applications which do not use a {@link Cursor} of type
      * {@link CursorType#LASER} do not have to instantiate and manage two cursors while
@@ -1068,17 +1066,6 @@ public class CursorManager {
             while (sceneObject != null && !callEventHandler(sceneObject, event) && sceneObject
                     .getParent() != null) {
                 sceneObject = sceneObject.getParent();
-            }
-            if(sceneObject == null) {
-                KeyEvent keyEvent = event.getKeyEvent();
-                String keyEventString;
-                if(keyEvent == null) {
-                    keyEventString = "null";
-                } else {
-                    keyEventString = keyEvent.toString();
-                }
-                Log.d(TAG,"KeyEvent:%s, MotionEvent:%s", keyEventString, Arrays
-                        .toString(event.getMotionEvents().toArray()));
             }
         }
     };

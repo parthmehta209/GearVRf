@@ -21,6 +21,7 @@ import android.view.MotionEvent;
 import org.gearvrf.GVRBaseSensor;
 import org.gearvrf.GVRSceneObject;
 import org.joml.Vector3f;
+import org.gearvrf.SensorEvent.EventGroup;
 
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class CursorEvent {
     private static CursorEvent recyclerTop;
     private CursorEvent next;
     private List<MotionEvent> motionEvents;
+    private EventGroup eventGroup = EventGroup.SINGLE;
 
     CursorEvent(){
         hitPoint = new Vector3f();
@@ -299,5 +301,13 @@ public class CursorEvent {
 
     public List<MotionEvent> getMotionEvents() {
         return motionEvents;
+    }
+
+    public EventGroup getEventGroup() {
+        return eventGroup;
+    }
+
+    void setEventGroup(EventGroup eventGroup) {
+        this.eventGroup = eventGroup;
     }
 }

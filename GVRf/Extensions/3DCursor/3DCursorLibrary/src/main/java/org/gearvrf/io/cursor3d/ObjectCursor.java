@@ -56,7 +56,6 @@ class ObjectCursor extends Cursor {
     void dispatchSensorEvent(SensorEvent event) {
         GVRSceneObject object = event.getObject();
         GVRCursorController controller = event.getCursorController();
-        //TODO should I add a colliding check here
         if (intersecting.contains(object)) {
             createAndSendCursorEvent(event.getObject(), true, event.getHitX(), event.getHitY(),
                     event.getHitZ(), true, active, event.getCursorController().getKeyEvent(), controller.getMotionEvents());
@@ -125,13 +124,8 @@ class ObjectCursor extends Cursor {
                 if (intersecting.contains(object)) {
                     intersecting.remove(object);
                 }
-<<<<<<< 8458a94368af70928e432c5180b31241fc37e0bc
                 createAndSendCursorEvent(object, false, EMPTY_HIT_POINT[0],EMPTY_HIT_POINT[1],
-                        EMPTY_HIT_POINT[2], false, active, keyEvent);
-=======
-                createAndSendCursorEvent(object, false, EMPTY_HIT_POINT, false, active, keyEvent,
-                        null);
->>>>>>> Motion Events with no SceneObject
+                        EMPTY_HIT_POINT[2], false, active, keyEvent, null);
             }
             previousHits.clear();
             previousHits.addAll(newHits);
@@ -163,14 +157,10 @@ class ObjectCursor extends Cursor {
                         cursorSceneObject.getPositionZ(), cubeMin, cubeMax)) {
                     if (isColliding(object)) {
                         addNewHit(object);
-<<<<<<< 8458a94368af70928e432c5180b31241fc37e0bc
                         createAndSendCursorEvent(object, true, EMPTY_HIT_POINT[0],
-                                EMPTY_HIT_POINT[1], EMPTY_HIT_POINT[2], true, active, keyEvent);
-=======
-                        createAndSendCursorEvent(object, true, new float[3], true, active,
-                                keyEvent, null);
+                                EMPTY_HIT_POINT[1], EMPTY_HIT_POINT[2], true, active, keyEvent,
+                                null);
                         sentEvent = true;
->>>>>>> Motion Events with no SceneObject
                     }
                 } else {
                     addNewHit(object);

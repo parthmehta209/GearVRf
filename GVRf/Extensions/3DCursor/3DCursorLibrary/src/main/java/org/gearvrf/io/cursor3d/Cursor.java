@@ -644,7 +644,7 @@ public abstract class Cursor {
             cursorEvent.setActive(isActive());
             cursorEvent.setCursor(Cursor.this);
             cursorEvent.setObject(null);
-            cursorEvent.setHitPoint(null);
+            cursorEvent.setHitPoint(0,0,0);
             cursorEvent.setKeyEvent(controller.getKeyEvent());
             cursorEvent.setMotionEvents(controller.getMotionEvents());
             dispatchCursorEvent(cursorEvent);
