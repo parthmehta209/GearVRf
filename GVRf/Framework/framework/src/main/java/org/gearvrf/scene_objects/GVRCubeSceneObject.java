@@ -63,7 +63,8 @@ public class GVRCubeSceneObject extends GVRSceneObject {
     // (Note that these name are for outward facing. When looking from inside,
     // "back" face is in front of you, and "front" face is behind you.)
 
-    private static final float[] SIMPLE_VERTICES = { -SIZE, -SIZE, SIZE, // 0
+    private static final float[] SIMPLE_VERTICES = {
+            -SIZE, -SIZE, SIZE, // 0
             SIZE, -SIZE, SIZE, // 1
             -SIZE, SIZE, SIZE, // 2
             SIZE, SIZE, SIZE, // 3
@@ -94,23 +95,37 @@ public class GVRCubeSceneObject extends GVRSceneObject {
             SIZE, -SIZE, SIZE, // 23
     };
 
-    private static final float[] SIMPLE_OUTWARD_NORMALS = { 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-            1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    private static final float[] SIMPLE_OUTWARD_NORMALS = {
+            0.0f, 0.0f, 1.0f,// front
+            0.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f,
 
-            1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-            0.0f,
+            1.0f, 0.0f, 0.0f,// right
+            1.0f, 0.0f, 0.0f,
+            1.0f, 0.0f, 0.0f,
+            1.0f, 0.0f, 0.0f,
 
-            0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
-            0.0f, -1.0f,
+            0.0f, 0.0f, -1.0f,// back
+            0.0f, 0.0f, -1.0f,
+            0.0f, 0.0f, -1.0f,
+            0.0f, 0.0f, -1.0f,
 
-            -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f,
-            0.0f, 0.0f,
+            -1.0f, 0.0f, 0.0f,// left
+            -1.0f, 0.0f, 0.0f,
+            -1.0f, 0.0f, 0.0f,
+            -1.0f, 0.0f, 0.0f,
 
-            0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-            0.0f,
+            0.0f, 1.0f, 0.0f,// top
+            0.0f, 1.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
 
-            0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-            -1.0f, 0.0f };
+            0.0f, -1.0f, 0.0f,// bottom
+            0.0f, -1.0f, 0.0f,
+            0.0f, -1.0f, 0.0f,
+            0.0f, -1.0f, 0.0f
+    };
 
     private static final float[] SIMPLE_INWARD_NORMALS = { 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
             -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f,

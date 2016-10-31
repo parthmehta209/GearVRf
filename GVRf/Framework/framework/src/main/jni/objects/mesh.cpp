@@ -41,6 +41,14 @@ Mesh* Mesh::createBoundingBox() {
 
 Mesh* Mesh::createBoundingBox(BoundingVolume& bounding_volume) {
     Mesh* mesh = new Mesh();
+    Mesh::addBoundingBoxVertices(mesh,bounding_volume);
+    Mesh::addBoundingBoxIndices(mesh);
+    Mesh::addBoundingBoxNormals(mesh);
+    return mesh;
+}
+
+void Mesh::addBoundingBoxVertices(Mesh *mesh, BoundingVolume &bounding_volume) {
+
     glm::vec3 min_corner = bounding_volume.min_corner();
     glm::vec3 max_corner = bounding_volume.max_corner();
 
@@ -51,59 +59,94 @@ Mesh* Mesh::createBoundingBox(BoundingVolume& bounding_volume) {
     float max_y = max_corner[1];
     float max_z = max_corner[2];
 
-    mesh->vertices_.push_back(glm::vec3(min_x, min_y, min_z));
-    mesh->vertices_.push_back(glm::vec3(max_x, min_y, min_z));
-    mesh->vertices_.push_back(glm::vec3(min_x, max_y, min_z));
-    mesh->vertices_.push_back(glm::vec3(max_x, max_y, min_z));
-    mesh->vertices_.push_back(glm::vec3(min_x, min_y, max_z));
-    mesh->vertices_.push_back(glm::vec3(max_x, min_y, max_z));
-    mesh->vertices_.push_back(glm::vec3(min_x, max_y, max_z));
-    mesh->vertices_.push_back(glm::vec3(max_x, max_y, max_z));
+    mesh->vertices_.push_back(glm::vec3(min_x, min_y, min_z)); // 0
+    mesh->vertices_.push_back(glm::vec3(max_x, min_y, min_z)); // 1
+    mesh->vertices_.push_back(glm::vec3(min_x, max_y, min_z)); // 2
+    mesh->vertices_.push_back(glm::vec3(max_x, max_y, min_z)); // 3
 
-    mesh->indices_.push_back(0);
-    mesh->indices_.push_back(2);
-    mesh->indices_.push_back(1);
-    mesh->indices_.push_back(1);
-    mesh->indices_.push_back(2);
-    mesh->indices_.push_back(3);
+    mesh->vertices_.push_back(glm::vec3(max_x, min_y, min_z)); // 4
+    mesh->vertices_.push_back(glm::vec3(max_x, min_y, max_z)); // 5
+    mesh->vertices_.push_back(glm::vec3(max_x, max_y, min_z)); // 6
+    mesh->vertices_.push_back(glm::vec3(max_x, max_y, max_z)); // 7
 
-    mesh->indices_.push_back(1);
-    mesh->indices_.push_back(3);
-    mesh->indices_.push_back(7);
-    mesh->indices_.push_back(1);
-    mesh->indices_.push_back(7);
-    mesh->indices_.push_back(5);
+    mesh->vertices_.push_back(glm::vec3(max_x, min_y, max_z)); // 8
+    mesh->vertices_.push_back(glm::vec3(min_x, min_y, max_z)); // 9
+    mesh->vertices_.push_back(glm::vec3(max_x, max_y, max_z)); // 10
+    mesh->vertices_.push_back(glm::vec3(min_x, max_y, max_z)); // 11
 
-    mesh->indices_.push_back(4);
-    mesh->indices_.push_back(5);
-    mesh->indices_.push_back(6);
-    mesh->indices_.push_back(5);
-    mesh->indices_.push_back(7);
-    mesh->indices_.push_back(6);
+    mesh->vertices_.push_back(glm::vec3(min_x, min_y, max_z)); // 12
+    mesh->vertices_.push_back(glm::vec3(min_x, min_y, min_z)); // 13
+    mesh->vertices_.push_back(glm::vec3(min_x, max_y, max_z)); // 14
+    mesh->vertices_.push_back(glm::vec3(min_x, max_y, min_z)); // 15
 
-    mesh->indices_.push_back(0);
-    mesh->indices_.push_back(6);
-    mesh->indices_.push_back(2);
-    mesh->indices_.push_back(0);
-    mesh->indices_.push_back(4);
-    mesh->indices_.push_back(6);
+    mesh->vertices_.push_back(glm::vec3(min_x, max_y, min_z)); // 16
+    mesh->vertices_.push_back(glm::vec3(max_x, max_y, min_z)); // 17
+    mesh->vertices_.push_back(glm::vec3(min_x, max_y, max_z)); // 18
+    mesh->vertices_.push_back(glm::vec3(max_x, max_y, max_z)); // 19
 
-    mesh->indices_.push_back(0);
-    mesh->indices_.push_back(1);
-    mesh->indices_.push_back(5);
-    mesh->indices_.push_back(0);
-    mesh->indices_.push_back(5);
-    mesh->indices_.push_back(4);
+    mesh->vertices_.push_back(glm::vec3(min_x, min_y, max_z)); // 20
+    mesh->vertices_.push_back(glm::vec3(max_x, min_y, max_z)); // 21
+    mesh->vertices_.push_back(glm::vec3(min_x, min_y, min_z)); // 22
+    mesh->vertices_.push_back(glm::vec3(max_x, min_y, min_z)); // 23
 
-    mesh->indices_.push_back(2);
-    mesh->indices_.push_back(7);
-    mesh->indices_.push_back(3);
-    mesh->indices_.push_back(2);
-    mesh->indices_.push_back(6);
-    mesh->indices_.push_back(7);
-
-    return mesh;
 }
+
+void Mesh::addBoundingBoxNormals(Mesh* mesh) {
+    glm::vec3 a, b;
+    for(int i=0; i< mesh->vertices_.size(); i+=4) {
+        a = mesh->vertices_[i+1] - mesh->vertices_[i];
+        b = mesh->vertices_[i+2] - mesh->vertices_[i];
+        glm::vec3 cross_prod = glm::cross(a,b);
+        cross_prod = glm::normalize(cross_prod);
+        mesh->normals_.push_back(cross_prod);
+        mesh->normals_.push_back(cross_prod);
+        mesh->normals_.push_back(cross_prod);
+        mesh->normals_.push_back(cross_prod);
+    }
+}
+
+void Mesh::addBoundingBoxIndices(Mesh *mesh) {
+    static const unsigned short indices[] = {
+            0, 1, 2, // front
+            2, 1, 3,
+
+            4, 5, 6, // right
+            6, 5, 7,
+
+            8, 9, 10, // back
+            10, 9, 11,
+
+            12, 13, 14, // left
+            14, 13, 15, //
+
+            16, 17, 18, // top
+            18, 17, 19, //
+
+            20, 21, 22, // bottom
+            22, 21, 23 //
+    };
+
+    static const float tex_coords[] = {
+            0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // front
+            0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // right
+            0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // back
+            0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // left
+            0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // top
+            0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f  // bottom
+    };
+
+    std::vector<unsigned short> indices_vec(indices, indices + sizeof(indices)/ sizeof(*indices));
+    mesh->set_indices(indices_vec);
+
+    int tex_coords_size = sizeof(tex_coords)/ (2*sizeof(tex_coords[0]));
+    std::vector<glm::vec2> tex_coords_vec(tex_coords_size);
+    for(int i=0; i<tex_coords_size; i++) {
+        tex_coords_vec.push_back(glm::vec2(tex_coords[2*i],tex_coords[2*i+1]));
+    }
+    std::string key = "a_texcoord";
+    mesh->setVec2Vector(key,tex_coords_vec);
+}
+
 // an array of size:6 with Xmin, Ymin, Zmin and Xmax, Ymax, Zmax values
 const BoundingVolume& Mesh::getBoundingVolume() {
     if (have_bounding_volume_) {

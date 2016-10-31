@@ -251,7 +251,9 @@ public:
     }
 
     Mesh* createBoundingBox();
+
     static Mesh* createBoundingBox(BoundingVolume& bounding_volume);
+
     void getTransformedBoundingBoxInfo(glm::mat4 *M,
             float *transformed_bounding_box); //Get Bounding box info transformed by matrix
 
@@ -423,6 +425,12 @@ private:
     bool bone_data_dirty_;
     GlDelete* deleter_ = nullptr;
     static std::vector<std::string> dynamicAttribute_Names_;
-};
+
+    // helper for createBoundingBox
+    static void addBoundingBoxVertices(Mesh* mesh, BoundingVolume& bounding_volume);
+    static void addBoundingBoxIndices(Mesh* mesh);
+    static void addBoundingBoxNormals(Mesh* mesh);
+
+    };
 }
 #endif
