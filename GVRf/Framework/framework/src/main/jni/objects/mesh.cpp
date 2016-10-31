@@ -35,11 +35,12 @@ namespace gvr {
 std::vector<std::string> Mesh::dynamicAttribute_Names_ = {"a_bone_indices", "a_bone_weights"};
 
 Mesh* Mesh::createBoundingBox() {
-
-    Mesh* mesh = new Mesh();
-
     getBoundingVolume(); // Make sure bounding_volume is valid
+    return createBoundingBox(bounding_volume);
+}
 
+Mesh* Mesh::createBoundingBox(BoundingVolume& bounding_volume) {
+    Mesh* mesh = new Mesh();
     glm::vec3 min_corner = bounding_volume.min_corner();
     glm::vec3 max_corner = bounding_volume.max_corner();
 
@@ -103,7 +104,6 @@ Mesh* Mesh::createBoundingBox() {
 
     return mesh;
 }
-
 // an array of size:6 with Xmin, Ymin, Zmin and Xmax, Ymax, Zmax values
 const BoundingVolume& Mesh::getBoundingVolume() {
     if (have_bounding_volume_) {

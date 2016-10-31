@@ -15,15 +15,17 @@
 
 package org.gearvrf;
 
-import static org.gearvrf.utility.Assert.*;
+import org.gearvrf.GVRSceneObject.BoundingVolume;
+import org.gearvrf.utility.Exceptions;
+import org.gearvrf.utility.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.gearvrf.utility.Exceptions;
-import org.gearvrf.utility.Log;
+import static org.gearvrf.utility.Assert.checkDivisibleDataLength;
+import static org.gearvrf.utility.Assert.checkStringNotNullOrEmpty;
 
 /**
  * Describes an indexed triangle mesh as a set of shared vertices with integer
@@ -474,6 +476,14 @@ public class GVRMesh extends GVRHybridObject implements PrettyPrint {
     private List<GVRBone> mBones = new ArrayList<GVRBone>();
     private GVRVertexBoneData mVertexBoneData;
     private Set<String> mAttributeKeys;
+
+    static GVRMesh createBoundingBox(GVRContext gvrContext, BoundingVolume boundingVolume) {
+        return new GVRMesh(gvrContext, NativeMesh.createBoundingBox(new float[]
+                {boundingVolume.center.x, boundingVolume.center.y, boundingVolume.center.z,
+                        boundingVolume.radius, boundingVolume.minCorner.x, boundingVolume
+                        .minCorner.y, boundingVolume.minCorner.z, boundingVolume.maxCorner.x,
+                        boundingVolume.maxCorner.y, boundingVolume.maxCorner.z }));
+    }
 }
 
 class NativeMesh {
@@ -522,4 +532,6 @@ class NativeMesh {
     static native void getSphereBound(long mesh, float[] sphere);
     
     static native boolean hasAttribute(long mesh, String key);
+
+    static native long createBoundingBox(float[] boundingVolume);
 }

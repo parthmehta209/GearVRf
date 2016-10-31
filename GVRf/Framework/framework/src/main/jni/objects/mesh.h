@@ -251,6 +251,7 @@ public:
     }
 
     Mesh* createBoundingBox();
+    static Mesh* createBoundingBox(BoundingVolume& bounding_volume);
     void getTransformedBoundingBoxInfo(glm::mat4 *M,
             float *transformed_bounding_box); //Get Bounding box info transformed by matrix
 

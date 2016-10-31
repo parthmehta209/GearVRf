@@ -100,6 +100,9 @@ extern "C" {
     Java_org_gearvrf_NativeMesh_getAttribNames(JNIEnv * env,
             jobject obj, jlong jmesh);
 
+    JNIEXPORT jlong JNICALL
+    Java_org_gearvrf_NativeMesh_createBoundingBox(JNIEnv * env,
+            jobject obj, jfloatArray jboundingVolume);
 };
 
 JNIEXPORT jobjectArray JNICALL
@@ -429,4 +432,31 @@ Java_org_gearvrf_NativeMesh_getSphereBound(JNIEnv * env,
     sphere[3] = bvol.radius();
     env->SetFloatArrayRegion(jsphere, 0, 4, sphere);
 }
+
+BoundingVolume* arrayToBoundingVolume(JNIEnv* env, jfloatArray jboundingVolume) {
+    jfloat *jfloat_ary_pointer = env->GetFloatArrayElements(jboundingVolume, 0);
+    float *float_ary_pointer = reinterpret_cast<float *>(jfloat_ary_pointer);
+    glm::vec3 min_corner, max_corner, center;
+    center.x = float_ary_pointer[0];
+    center.y = float_ary_pointer[1];
+    center.z = float_ary_pointer[2];
+    float radius = float_ary_pointer[3];
+    min_corner.x = float_ary_pointer[4];
+    min_corner.y = float_ary_pointer[5];
+    min_corner.z = float_ary_pointer[6];
+    max_corner.x = float_ary_pointer[7];
+    max_corner.y = float_ary_pointer[8];
+    max_corner.z = float_ary_pointer[9];
+    return new BoundingVolume(min_corner, max_corner, radius, center);
+}
+
+JNIEXPORT jlong JNICALL
+Java_org_gearvrf_NativeMesh_createBoundingBox(JNIEnv * env, jobject obj,
+                                              jfloatArray jboundingVolume) {
+    BoundingVolume* boundingVolume = arrayToBoundingVolume(env, jboundingVolume);
+    Mesh* mesh = Mesh::createBoundingBox(*boundingVolume);
+    delete boundingVolume;
+    return reinterpret_cast<jlong>(mesh);
+}
+
 }

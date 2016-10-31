@@ -27,6 +27,15 @@ BoundingVolume::BoundingVolume() {
     scratch_abs_matrix = glm::mat4();
 }
 
+BoundingVolume::BoundingVolume(const glm::vec3 &min_corner, const glm::vec3 &max_corner,
+                               float radius, const glm::vec3 &center) {
+    min_corner_ = glm::vec3(min_corner.x, min_corner.y, min_corner.z);
+    max_corner_ = glm::vec3(max_corner.x, max_corner.y, max_corner.z);
+    radius_ = radius;
+    center_ = glm::vec3(center.x, center.y, center.z);
+    scratch_abs_matrix = glm::mat4();
+}
+
 void BoundingVolume::reset() {
     center_ = glm::vec3(0.0f, 0.0f, 0.0f);
     radius_ = 0.0f;

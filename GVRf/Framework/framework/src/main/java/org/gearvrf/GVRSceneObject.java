@@ -1309,6 +1309,16 @@ public class GVRSceneObject extends GVRHybridObject implements PrettyPrint, IScr
         return new BoundingVolume(NativeSceneObject.getBoundingVolume(getNative()));
     }
 
+    public GVRMesh getBoundingBox() {
+        GVRRenderData renderData = getRenderData();
+        if(renderData != null && renderData.getMesh() != null) {
+            return renderData.getMesh().getBoundingBox();
+        } else {
+            BoundingVolume boundingVolume = getBoundingVolume();
+            return GVRMesh.createBoundingBox(getGVRContext(), boundingVolume);
+        }
+    }
+
     /**
      * Expand the current volume by the given point
      * @return the updated BoundingVolume.

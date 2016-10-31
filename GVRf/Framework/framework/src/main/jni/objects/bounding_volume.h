@@ -35,6 +35,9 @@ class BoundingVolume {
 public:
     BoundingVolume();
 
+    BoundingVolume(const glm::vec3& min_conner, const glm::vec3& max_corner, float radius, const
+    glm::vec3& center);
+
     ~BoundingVolume() {
     }
 
