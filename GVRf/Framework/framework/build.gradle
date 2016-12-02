@@ -212,3 +212,7 @@ assembleDebug {}.doLast {
         include project.name + '-for-plugins.zip'
     }
 }
+
+if(file("../release.gradle").exists()) {
+    apply from: '../release.gradle'
+}
